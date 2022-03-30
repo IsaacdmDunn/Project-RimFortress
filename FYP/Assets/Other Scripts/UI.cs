@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UI : MonoBehaviour
+{
+    public Text charInfoName;
+    public Text emotionalInfoText;
+    public GameObject selectedCharacter;
+    public GameObject prefabCharacter;
+
+    public GameEvents events;
+
+    public List<int> causedByChar;
+    public List<int> affectedChar;
+    public CastManager cast;
+    [SerializeField] int eventID;
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    public void AddCharacter()
+    {
+        GameObject go = Instantiate(prefabCharacter, new Vector3(0, 0, 0), Quaternion.identity);
+        cast.cast.Add(go.GetComponent<CharacterInfo>());
+    }
+
+    public void AddMemory()
+    {
+        selectedCharacter.GetComponent<CharacterInfo>().brain.Add(new Memory(events, eventID, 0, causedByChar, affectedChar, cast.cast, events.MurderRememberPrecondition));
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //cast = FindObjectsOfType<CharacterInfo>();
+        CharacterInfo info = selectedCharacter.GetComponent<CharacterInfo>();
+        charInfoName.text = "Name:      " + info.name + "\n";
+        charInfoName.text += "Likes\n";
+        for (int i = 0; i < info.likes.Count; i++)
+        {
+            charInfoName.text += info.likes[i] + ", ";
+        }
+        charInfoName.text += "\nDislikes\n";
+        for (int i = 0; i < info.dislikes.Count; i++)
+        {
+            charInfoName.text += info.dislikes[i] + ", ";
+        }
+        charInfoName.text += "\nTraits\n";
+        for (int i = 0; i < info.traits.Count; i++)
+        {
+            charInfoName.text += info.traits[i] + ", ";
+        }
+
+        emotionalInfoText.text = "Happiness:     " + info.happiness.ToString() + "\n";
+        emotionalInfoText.text += "Anger:         " + info.angry.ToString() + "\n";
+        for (int i = 0; i < info.relations.Count; i++)
+        {
+            emotionalInfoText.text += info.relationsCharacter[i] + ":      " + info.relations[i] + "\n";
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+            if (hit.collider != null && hit.collider.gameObject.tag == "Character")
+            {
+                selectedCharacter = hit.collider.gameObject;
+            }
+        }
+
+    }
+}
