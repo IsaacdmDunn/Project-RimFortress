@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Dislikes : MonoBehaviour
 {
-    public enum dislikeType { cats = 0, dogs, farming, mining };
+    //public enum dislikeType { cats = 0, dogs, farming, mining };
 }

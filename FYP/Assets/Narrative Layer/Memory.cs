@@ -14,14 +14,14 @@ public class Memory : MonoBehaviour
     bool preconditionMet = false;
     GameEvents e;
     //precondition system idk what to put here
-    public Memory(GameEvents _e, int _id, int _timeStamp, List<int> _causedByChar, List<int> _affectedChar, List<CharacterInfo> _cast, Action Precondition)
+    public Memory(GameEvents _e, int _id, int _timeStamp, List<int> _causedByChar, List<int> _affectedChar, List<CharacterInfo> _cast)
     {
         id = _id;
         timeStamp = _timeStamp;
         causedByChar = _causedByChar;
         affectedChar = _affectedChar;
         cast = _cast;
-        precon = Precondition;
+        //precon = Precondition;
         e = _e;
     }
 

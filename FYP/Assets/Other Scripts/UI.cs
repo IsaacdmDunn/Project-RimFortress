@@ -7,6 +7,8 @@ public class UI : MonoBehaviour
 {
     public Text charInfoName;
     public Text emotionalInfoText;
+    public Text dialogTxt;
+    public List<string> dialog;
     public GameObject selectedCharacter;
     public GameObject prefabCharacter;
 
@@ -28,12 +30,14 @@ public class UI : MonoBehaviour
     public void AddCharacter()
     {
         GameObject go = Instantiate(prefabCharacter, new Vector3(0, 0, 0), Quaternion.identity);
-        cast.cast.Add(go.GetComponent<CharacterInfo>());
+        go.GetComponent<CharacterInfo>().cast = cast;
+        //cast.cast.Add(go.GetComponent<CharacterInfo>());
     }
 
     public void AddMemory()
     {
-        selectedCharacter.GetComponent<CharacterInfo>().brain.Add(new Memory(events, eventID, 0, causedByChar, affectedChar, cast.cast, events.MurderRememberPrecondition));
+        selectedCharacter.GetComponent<CharacterInfo>().brain.Add(new Memory(events, eventID, 0, causedByChar, affectedChar, cast.cast));
+        cast.cast[affectedChar[0]].isAlive = false;
     }
 
     // Update is called once per frame
@@ -62,7 +66,7 @@ public class UI : MonoBehaviour
         emotionalInfoText.text += "Anger:         " + info.angry.ToString() + "\n";
         for (int i = 0; i < info.relations.Count; i++)
         {
-            emotionalInfoText.text += info.relationsCharacter[i] + ":      " + info.relations[i] + "\n";
+            emotionalInfoText.text += cast.cast[i].name + ":      " + info.relations[i] + "\n";
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -76,6 +80,15 @@ public class UI : MonoBehaviour
                 selectedCharacter = hit.collider.gameObject;
             }
         }
+        UpdateDialogTxt();
+    }
 
+    void UpdateDialogTxt()
+    {
+        dialogTxt.text = "\n";
+        for (int i = dialog.Count -1; i > 0; i--)
+        {
+            dialogTxt.text += dialog[i] + "\n";
+        }
     }
 }
