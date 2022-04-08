@@ -7,6 +7,7 @@ public class CharacterInfo : MonoBehaviour
     
     public string name;
     public int id;
+    public int health = 100;
     //traits list
     public List<Likes.likeType> likes;
     public List<Likes.likeType> dislikes;
